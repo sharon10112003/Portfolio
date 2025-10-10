@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Sharon K.G — Portfolio</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{
+  --hover-teal: #20c997;
+  --accent:#43e97b;
+  --accent2:#4facfe;
+  --text-light:#e0e0e0;
+  --bg-dark:#0f111a;
+}
+
+/* Global */
+*{box-sizing:border-box}
+html,body{
+  margin:0;padding:0;
+  font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+  color:var(--text-light);
+  background:var(--bg-dark);
+  scroll-behavior:smooth;
+}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,h4,h5,h6{color:#fff;margin:0}
+p{color:#cfcfcf}
+
+/* Navbar */
+.navbar{
+  background:#0f111a;
+  box-shadow:0 6px 20px rgba(0,0,0,.6);
+}
+.navbar .nav-link{color:var(--text-light); transition:.2s}
+.navbar .nav-link:hover{color:var(--accent)}
+.btn-outline-accent{border-color:var(--accent); color:var(--accent)}
+.btn-outline-accent:hover{background:var(--accent); color:#0f111a}
+
+/* Links + Navbar */
+.navbar .nav-link:hover {
+  color: var(--hover-teal);
+  text-shadow: 0 0 8px var(--hover-teal);
+} 
+
+/* Section base */
+section, header {
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:80px 40px;
+  opacity:0;
+  transform:translateY(30px);
+  transition:all .9s cubic-bezier(.2,.9,.2,1);
+}
+section.visible, header.visible {opacity:1; transform:translateY(0);}
+
+/* HERO (Home) */
+.hero{
+  background: linear-gradient(135deg,#0f111a,#1c1b3a,#0d1b2a);
+  flex-direction:column;
+  text-align:center;
+  gap:18px;
+  padding:0 40px;
+}
+.hero .headline{
+  font-size:clamp(2.2rem,4.5vw,4rem);
+  font-weight:700
+}
+.hero .sub{
+  font-size:clamp(1rem,2.2vw,1.4rem);
+  max-width:920px;
+  margin:0 auto 10px;
+  color:#d0d0d0
+}
+.intro-buttons {
+  margin-top: 30px;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+/* .btn {
+  background: linear-gradient(90deg, #4f46e5, #06b6d4);
+  border: none;
+  color: white;
+  padding: 12px 28px;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(79,70,229,0.7);
+} */
+
+/* Buttons */
+.btn {
+  background: linear-gradient(90deg, #008080, #20c997);
+  border: none;
+  color: white;
+  padding: 12px 28px;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px var(--hover-teal);
+  background: linear-gradient(90deg, #20c997, #5eead4);
+}
+
+/* Video Modal Styling */
+.video-modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+  justify-content: center;
+  align-items: center;
+}
+.video-content {
+  position: relative;
+  max-width: 80%;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.video-content video {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 30px;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* ABOUT */
+#about{
+  background: linear-gradient(135deg,#1c1b3a,#0d1b2a);
+  width:100%;
+  gap:60px;
+  justify-content:center;
+  align-items:center;
+  padding:80px 40px;
+  box-sizing:border-box;
+  flex-wrap:wrap;
+}
+.about-inner{display:flex;align-items:center;gap:60px;max-width:1200px;width:100%;flex-wrap:wrap;justify-content:center}
+.about-img{
+  width:380px;height:380px;flex:0 0 380px;
+  transform:translateX(-120px);
+  opacity:0;
+  transition:transform .8s cubic-bezier(.2,.9,.2,1),opacity .8s;
+}
+.about-img img{
+  width:100%;height:100%;object-fit:cover;border-radius:14px;box-shadow:0 30px 60px rgba(0,0,0,0.6);
+}
+.about-content{
+  max-width:700px;flex:1 1 420px;
+  transform:translateX(120px);
+  opacity:0;
+  transition:transform .8s cubic-bezier(.2,.9,.2,1),opacity .8s;
+}
+#about.visible .about-img{transform:translateX(0);opacity:1}
+#about.visible .about-content{transform:translateX(0);opacity:1}
+.about-content h2{margin-bottom:18px;font-size:2rem}
+.about-content p{font-size:1.12rem;line-height:1.8;color:#d0d0d0}
+
+/* Skills */
+/* #skills{background:linear-gradient(135deg,#0d1b2a,#111827)}
+.skills-grid{display:flex;gap:26px;flex-wrap:wrap;justify-content:center;max-width:1100px;margin-top:28px}
+.skill-card{background:#0f1720;padding:22px;border-radius:14px;min-width:180px;text-align:center;box-shadow:0 8px 30px rgba(0,0,0,.45)}
+.skill-card i{font-size:2.2rem;color:var(--accent);margin-bottom:10px;display:block}
+.skill-card p{margin:0;font-weight:700;color:#d6d6d6} */
+
+/* Skill Cards */
+.skill-card {
+  background: #0f1720;
+  padding: 22px;
+  border-radius: 14px;
+  min-width: 180px;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+  transition: all 0.3s ease;
+}
+.skill-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 20px var(--hover-teal);
+}
+.skill-card i:hover {
+  color: var(--hover-teal);
+}
+
+/* Projects */
+ #projects{background:linear-gradient(135deg,#111827,#0f111a)}
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:26px;max-width:1200px;width:100%}
+.project{background:#181826;padding:18px;border-radius:12px;box-shadow:0 10px 40px rgba(0,0,0,.45)}
+.project img{width:100%;height:150px;object-fit:cover;border-radius:8px;margin-bottom:12px}
+.project h5{color:var(--accent);margin-bottom:8px}
+.project p{color:#d0d0d0;margin-bottom:10px} 
+
+/* Project Cards */
+.project {
+  background: #181826;
+  padding: 18px;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
+  transition: all 0.3s ease;
+}
+.project:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 0 25px var(--hover-teal);
+}
+.project h5:hover {
+  color: var(--hover-teal);
+} */
+
+/* Project View Button */
+.project {
+  position: relative;
+  overflow: hidden;
+}
+
+.project .view-btn {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%) translateY(30px);
+  opacity: 0;
+  background: linear-gradient(90deg, #008080, #20c997);
+  border: none;
+  color: white;
+  padding: 8px 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.project:hover .view-btn {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  box-shadow: 0 0 12px var(--hover-teal);
+}
+
+.project .view-btn:hover {
+  background: linear-gradient(90deg, #20c997, #5eead4);
+  transform: translateX(-50%) translateY(-2px);
+}
+
+/* Contact */
+#contact{background:linear-gradient(135deg,#1c1b3a,#0d1b2a)}
+.contact-form{max-width:620px;width:100%;display:flex;flex-direction:column;gap:12px}
+.contact-form input,.contact-form textarea{padding:12px;border-radius:8px;border:0;background:#0f1720;color:#e8e8e8}
+ 
+/* Contact Inputs */
+.contact-form input:hover,
+.contact-form textarea:hover {
+  border: 1px solid var(--hover-teal);
+  box-shadow: 0 0 8px var(--hover-teal);
+  transition: all 0.3s ease;
+}
+/* Footer */
+footer{background:#0f111a;color:#aaa;padding:18px;text-align:center}
+ 
+
+/* Footer Icons */
+footer a:hover i {
+  color: var(--hover-teal);
+  text-shadow: 0 0 8px var(--hover-teal);
+} 
+
+/* Image Hover in About Section */
+.about-img img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 25px var(--hover-teal);
+  transition: all 0.3s ease;
+}
+/* Responsive */
+@media(max-width:1000px){
+  .about-img{width:300px;height:300px;flex-basis:300px}
+}
+@media(max-width:760px){
+  section, header{padding:60px 20px}
+  .about-inner{flex-direction:column-reverse;align-items:center}
+  .about-img{transform:translateY(30px);opacity:1 !important}
+  .about-content{transform:translateY(0);opacity:1 !important}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="#">Sharon K.G</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navContent">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
+        <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        <li class="nav-item ms-3 d-none d-lg-block"><a class="btn btn-outline-accent" href="RenderCV_sb2nov_Theme (3).pdf" download>Resume</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header id="home" class="hero">
+  <div>
+    <div class="headline">Hi, I'm <span style="background:linear-gradient(45deg,#4facfe,#8e44ad,#43e97b);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Sharon</span> — Web Developer</div>
+    <p class="sub">I build modern, responsive websites and web apps. I enjoy clean code, thoughtful UI, and fast performance.</p>
+
+    <div class="intro-buttons">
+      <button class="btn" id="playBtn" >▶ Play Intro</button>
+      <a href="#projects" class="btn" target="_blank">💼 See My Projects</a>
+    </div>
+  </div>
+</header>
+
+<!-- Video Modal -->
+<div id="videoModal" class="video-modal">
+  <div class="video-content">
+    <span class="close-btn" id="closeBtn">&times;</span>
+    <video id="introVideo" controls>
+      <source src="video.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-inner">
+    <div class="about-img">
+      <img src="blackcoat.jpeg" alt="Sharon">
+    </div>
+    <div class="about-content">
+      <h2>About Me</h2>
+      <p>I am Sharon K G, a passionate web developer skilled in HTML, CSS, and JavaScript. I create interactive, responsive, and user-friendly websites that look great on all devices. My goal is to build projects that are both visually appealing and highly functional.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container text-center">
+    <h2>Skills</h2>
+    <div class="skills-grid mt-4">
+      <div class="skill-card"><i class="fab fa-html5"></i><p>HTML5</p></div>
+      <div class="skill-card"><i class="fab fa-css3-alt"></i><p>CSS3</p></div>
+      <div class="skill-card"><i class="fab fa-js-square"></i><p>JavaScript</p></div>
+      <div class="skill-card"><i class="fab fa-bootstrap"></i><p>Bootstrap</p></div>
+      <div class="skill-card"><i class="fab fa-react"></i><p>React</p></div>
+      <div class="skill-card"><i class="fab fa-git-alt"></i><p>Git & GitHub</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<!-- <section id="projects">
+  <div class="container">
+    <h2 class="text-center">Projects</h2>
+    <div class="projects-grid mt-4">
+      <div class="project">
+        <img src="ecommerce.jpeg" alt="project">
+        <h5>E-Commerce Website</h5>
+        <p>A demo e-commerce front-end built with HTML/CSS/JS.</p>
+      </div>
+      <div class="project">
+        <img src="calculator.jpg" alt="project">
+        <h5>Calculator App</h5>
+        <p>A calculator app built using HTML, CSS, and JavaScript.</p>
+      </div>
+      <div class="project">
+        <img src="todolists.jpeg" alt="project">
+        <h5>To-Do List App</h5>
+        <p>A simple task manager built with HTML, CSS, and JS.</p>
+      </div>
+    </div>
+  </div>
+</section> -->
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="container">
+    <h2 class="text-center">Projects</h2>
+    <div class="projects-grid mt-4">
+
+      <div class="project">
+        <img src="ecommerce.jpeg" alt="project">
+        <h5>E-Commerce Website</h5>
+        <p>A demo e-commerce front-end built with HTML/CSS/JS.</p>
+        <button class="view-btn" data-img="ecommerce.jpeg" onclick="location.href='https://sharon10112003.github.io/E-Commerce-Website/'">View Project</button>
+      </div>
+
+      <div class="project">
+        <img src="calculator.jpg" alt="project">
+        <h5>Calculator App</h5>
+        <p>A calculator app built using HTML, CSS, and JavaScript.</p>
+        <button class="view-btn" data-img="calculator.jpg" onclick="location.href='https://sharon10112003.github.io/calculator/'">View Project</button>
+        <link rel="stylesheet" >
+      </div>
+
+      <div class="project">
+        <img src="todolists.jpeg" alt="project">
+        <h5>To-Do List App</h5>
+        <p>A simple task manager built with HTML, CSS, and JS.</p>
+        <button class="view-btn" data-img="todolists.jpeg" onclick="location.href='https://sharon10112003.github.io/To-do-list/'">View Project</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Project Image Modal -->
+<div id="projectModal" class="video-modal">
+  <div class="video-content">
+    <span class="close-btn" id="closeProjectBtn">&times;</span>
+    <img id="projectImage" src="" alt="Project" style="width:100%;border-radius:10px;">
+  </div>
+</div>
+
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <h2 class="text-center">Contact</h2>
+    <form id="contactForm" class="contact-form mx-auto mt-4">
+      <input id="cname" type="text" placeholder="Name" required>
+      <input id="cemail" type="email" placeholder="Email" required>
+      <textarea id="cmessage" rows="5" placeholder="Message" required></textarea>
+      <div class="d-flex justify-content-center">
+        <button type="submit" class="btn">Send Message</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+<footer>
+  &copy; <span id="year"></span> Sharon K.G — 
+  <a href="https://github.com/sharon10112003" target="_blank"><i class="fab fa-github"></i></a>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// Reveal animations
+const sections = document.querySelectorAll('section, header');
+const obs = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add('visible');
+    }
+  });
+},{threshold:0.18});
+sections.forEach(s=>obs.observe(s));
+
+// Play Intro video modal
+const playBtn = document.getElementById('playBtn');
+const modal = document.getElementById('videoModal');
+const closeBtn = document.getElementById('closeBtn');
+const video = document.getElementById('introVideo');
+
+playBtn.addEventListener('click', () => {
+  modal.style.display = 'flex';
+  video.play();
+});
+closeBtn.addEventListener('click', () => {
+  modal.style.display = 'none';
+  video.pause();
+});
+window.addEventListener('click', (e) => {
+  if (e.target === modal) {
+    modal.style.display = 'none';
+    video.pause();
+  }
+});
+
+// Project Image Modal
+const projectModal = document.getElementById('projectModal');
+// const projectImage = document.getElementById('projectImage');
+const closeProjectBtn = document.getElementById('closeProjectBtn');
+
+document.querySelectorAll('.view-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    // const imgSrc = btn.getAttribute('data-img');
+    projectImage.src = imgSrc;
+    projectModal.style.display = 'flex';
+  });
+});
+
+closeProjectBtn.addEventListener('click', () => {
+  projectModal.style.display = 'none';
+});
+
+window.addEventListener('click', (e) => {
+  if (e.target === projectModal) {
+    projectModal.style.display = 'none';
+  }
+});
+
+</script>
+</body>
+</html>
